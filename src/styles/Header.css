@@ -1,0 +1,76 @@
+.header {
+    background-color: #52ae32; /* Dunkelgrüner Hintergrund */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px 0;
+    font-family: Arial;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-right: 20px; /* Abstand zur Navigation */
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 2%;
+    border-right: 1px solid rgba(255, 255, 255, 1);
+    transition: all 0.3s ease-in-out;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+}
+
+.logo img:hover {
+    transform: scale(1.08);
+}
+
+.menu-icon{
+    width: 15px;
+    height: 15px;
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+
+}
+
+.nav a {
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+    font-size: 20px;
+    padding: 6px 20px 6px 20px;
+    color:white;
+    border-radius: 8px;
+}
+
+.nav a:hover {
+    color: #ffffff; /* Gelber Hover-Effekt */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.menu-button {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}

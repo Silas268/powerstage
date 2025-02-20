@@ -1,0 +1,17 @@
+.table-wrapper {
+    max-height: 80vh; /* Begrenze die Höhe auf 80% des Viewports */
+    overflow-y: auto; /* Ermöglicht vertikales Scrollen */
+    padding: 10px;
+}
+
+.table-group {
+    margin-bottom: 20px;
+}
+
+/* Fixierte Header für bessere Übersicht */
+.table-container thead {
+    position: sticky;
+    top: 0;
+    background-color: rgba(60, 60, 60, 0.85); /* Hintergrund leicht transparent für besseren Look */
+    z-index: 2;
+}

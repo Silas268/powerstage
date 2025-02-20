@@ -1,0 +1,194 @@
+/* 🌟 Allgemeines Styling für die Tabelle */
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+    text-align: left;
+    font-family: "Arial", sans-serif;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 🌟 Tabellenkopf */
+.table-container thead tr {
+    background: #7a7a7c;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.table-container th,
+.table-container td {
+    padding: 12px 14px;
+    text-align: center;
+}
+
+/* 🌟 Tabellenzeilen */
+.table-container tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.table-container tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+.table-container tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+/* Abschnittstrennung */
+.table-section {
+    background: #f8f8f8;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.table-section:hover {
+}
+
+/* 📌 Dropdown-Knopf */
+.dropdown-header {
+    width: 20%;
+    background: #848d91;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.dropdown-header:hover {
+    background: #3d4448;
+}
+
+
+.dropdown-header.open::after {
+    transform: rotate(180deg);
+}
+
+/* 📌 Überschriften */
+.drives-table h3 {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 15px;
+    background: linear-gradient(120deg, #555, #6c6d6e);
+    border: 1px solid #52ae32;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 8px 12px;
+    display: inline-block;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.drives-table h4 {
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-bottom: 2px solid rgba(65, 139, 25, 0.42);
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 1000;
+    transform: translateX(-50%);
+    top: 30px;
+    left: 50%;
+    font-weight: normal;
+}
+
+/* Tooltip beim Hover über Spaltenkopf anzeigen */
+.table-header {
+    position: relative;
+    cursor: help;
+}
+
+.table-header:hover .tooltip {
+    display: block;
+}
+
+/* 🔍 Suchleiste */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    padding: 12px 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
+    width: fit-content;
+    margin-bottom: 20px;
+    border: 2px solid transparent;
+    transition: border 0.2s ease-in-out;
+}
+
+/* Suchfeld */
+.search-bar > input {
+    width: 250px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border 0.2s ease-in-out, background 0.2s;
+    background: #f5f5f5;
+}
+
+.search-bar > input:focus {
+    outline: none;
+    border: 2px solid #52ae32;
+    background: white;
+}
+
+/* Suchbutton */
+.search-bar > button {
+    background: #52ae32;
+    border: none;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-bar img {
+    width: 20px;
+    height: 20px;
+    }
+
+.search-bar > button:hover {
+    background: #5eca3c;
+    transform: scale(1.02);
+}
+
+.search-bar > button:active {
+    transform: scale(0.98);
+}
+
+
