@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import "../styles/DrivesTable.css";
+import EditRow from "./EditRow";
 
 interface TableProps {
     data: any[];
     description: { [key: string]: string };
+    onUpdate: (updatedRow: any) => void;
 }
 
-const Table: React.FC<TableProps> = ({ data: initialData, description }) => {
+const Table: React.FC<TableProps> = ({ data: initialData, description, onUpdate }) => {
     const [data, setData] = useState(initialData);
     const [hoveredColumn, setHoveredColumn] = useState<string | null>(null);
     const [sortColumn, setSortColumn] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<string | null>(null);
-    const [selectedRow, setSelectedRow] = useState<any | null>(null);
+    const [editingRowId, setEditingRowId] = useState<number | null>(null);
 
     if (!data || data.length === 0) {
         return <p>Keine Daten verfügbar.</p>;
@@ -41,68 +43,69 @@ const Table: React.FC<TableProps> = ({ data: initialData, description }) => {
         });
     }
 
-    const handleRowClick = (row: any) => {
-        setSelectedRow(row);
+    const handleEdit = (rowId: number) => {
+        setEditingRowId(rowId);
     };
 
-    const handleSave = async (updatedRow: any) => {
-        try {
-            const response = await fetch(`/api/globalData/${updatedRow.TypeCode}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedRow),
-            });
+    const handleSave = (updatedRow: any) => {
+        onUpdate(updatedRow);
+        setEditingRowId(null);
+    };
 
-            if (!response.ok) throw new Error("Fehler beim Speichern!");
-
-            const updatedData = await response.json();
-
-            setData((prevData) =>
-                prevData.map((row) => (row.TypeCode === updatedData.TypeCode ? updatedData : row))
-            );
-            setSelectedRow(null);
-        } catch (error) {
-            console.error("Update fehlgeschlagen:", error);
-        }
+    const handleCancel = () => {
+        setEditingRowId(null);
     };
 
     return (
-        <div className="table-wrapper">
-            <table className="table-container">
-                <thead>
-                <tr>
-                    {columns.map((column) => (
-                        <th
-                            key={column}
-                            onClick={() => handleSort(column)}
-                            onMouseEnter={() => setHoveredColumn(column)}
-                            onMouseLeave={() => setHoveredColumn(null)}
-                            className="table-header"
-                            style={{ cursor: "pointer" }}
-                        >
-                            {formatColumnName(column)}
-                            {sortColumn === column && <span>{sortOrder === "asc" ? " ▲" : " ▼"}</span>}
-                            {hoveredColumn === column && description[column] && (
-                                <div className="tooltip">{description[column]}</div>
-                            )}
-                        </th>
-                    ))}
-                </tr>
-                </thead>
-                <tbody>
-                {sortedData.map((row, index) => (
-                    <tr key={index} onClick={() => handleRowClick(row)}>
-                        {columns.map((column) => (
-                            <td key={column}>{row[column]}</td>
-                        ))}
-                    </tr>
+        <div>
+        <table className="table-container">
+            <thead>
+            <tr>
+                {columns.map((column) => (
+                    <th
+                        key={column}
+                        onClick={() => handleSort(column)}
+                        onMouseEnter={() => setHoveredColumn(column)}
+                        onMouseLeave={() => setHoveredColumn(null)}
+                        className="table-header"
+                        style={{ cursor: "pointer" }}
+                    >
+                        {formatColumnName(column)}
+                        {sortColumn === column && <span>{sortOrder === "asc" ? " ▲" : " ▼"}</span>}
+                        {hoveredColumn === column && description[column] && (
+                            <div className="tooltip">{description[column]}</div>
+                        )}
+                    </th>
                 ))}
-                </tbody>
-            </table>
-
-
-        </div>
-    );
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {sortedData.map((row, index) => (
+                <React.Fragment key={index}>
+                    {editingRowId === row.id ? (
+                        <EditRow
+                            row={row}
+                            columns={columns}
+                            onSave={handleSave}
+                            onCancel={handleCancel}
+                        />
+                    ) : (
+                        <tr>
+                            {columns.map((column) => (
+                                <td key={column}>{row[column]}</td>
+                            ))}
+                            <td>
+                                <button onClick={() => handleEdit(row.id)}>Edit</button>
+                            </td>
+                        </tr>
+                    )}
+                </React.Fragment>
+            ))}
+            </tbody>
+        </table>
+</div>
+);
 };
 
 export default Table;

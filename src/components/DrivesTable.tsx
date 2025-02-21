@@ -4,7 +4,6 @@ import CurrentValuesTabTable from "./CurrentValuesTabTable";
 import ServoSoftTable from "./ServoSoftTable";
 import "../styles/DrivesTable.css";
 import search from "../assets/lupe.png";
-import PowerStageList from "../components/PowerStageList";
 
 interface GlobalData {
     typecode: number;
@@ -106,7 +105,7 @@ const DrivesTable: React.FC = () => {
 
     const handleUpdate = async (updatedRow: any) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/globaldata/${updatedRow.id}`, {
+            const response = await fetch(`http://localhost:5000/api/globaldata/${updatedRow.typecode}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -115,11 +114,12 @@ const DrivesTable: React.FC = () => {
             });
 
             if (response.ok) {
+                const updatedData = await response.json();
                 setGlobalData((prevData) =>
-                    prevData.map((row) => (row.id === updatedRow.id ? updatedRow : row))
+                    prevData.map((row) => (row.typecode === updatedData.typecode ? updatedData : row))
                 );
                 setFilteredGlobalData((prevData) =>
-                    prevData.map((row) => (row.id === updatedRow.id ? updatedRow : row))
+                    prevData.map((row) => (row.typecode === updatedData.typecode ? updatedData : row))
                 );
             } else {
                 console.error("Failed to update row");
@@ -161,7 +161,7 @@ const DrivesTable: React.FC = () => {
                         <button className="dropdown-header" onClick={() => toggleSection("axisData")}>
                             Axis Specific Data {openSections.axisData ? "▲" : "▼"}
                         </button>
-                        {openSections.axisData && <Table data={filteredAxisData} description={descriptions} />}
+                        {openSections.axisData && <Table data={filteredAxisData} description={descriptions} onUpdate={handleUpdate} />}
                     </div>
                 )}
 
@@ -179,7 +179,7 @@ const DrivesTable: React.FC = () => {
                         <button className="dropdown-header" onClick={() => toggleSection("dcVoltageCurve")}>
                             DC Voltage Curve {openSections.dcVoltageCurve ? "▲" : "▼"}
                         </button>
-                        {openSections.dcVoltageCurve && <Table data={filteredDcVoltageCurve} description={descriptions} />}
+                        {openSections.dcVoltageCurve && <Table data={filteredDcVoltageCurve} description={descriptions} onUpdate={handleUpdate} />}
                     </div>
                 )}
 
@@ -188,7 +188,7 @@ const DrivesTable: React.FC = () => {
                         <button className="dropdown-header" onClick={() => toggleSection("temperatureSensorCurve")}>
                             Temperature Sensor Curve {openSections.temperatureSensorCurve ? "▲" : "▼"}
                         </button>
-                        {openSections.temperatureSensorCurve && <Table data={filteredTemperatureSensorCurve} description={descriptions} />}
+                        {openSections.temperatureSensorCurve && <Table data={filteredTemperatureSensorCurve} description={descriptions} onUpdate={handleUpdate} />}
                     </div>
                 )}
 

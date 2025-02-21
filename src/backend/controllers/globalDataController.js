@@ -74,25 +74,29 @@ exports.createGlobalData = async (req, res) => {
 // 🔹 Einen bestehenden Eintrag aktualisieren
 exports.updateGlobalData = async (req, res) => {
     try {
-        const { typecode } = req.params;
-        const { Num_Axes, VDC_Max, VDC_Center_Tol, Pst_Features, c} = req.body;
+        const typecode = parseInt(req.params.typecode, 10);
+        if (isNaN(typecode)) {
+            return res.status(400).json({ message: "Invalid typecode" });
+        }
+
+        const { num_axes, vdc_max, vdc_center_tol, pst_features, c } = req.body;
 
         const query = `
             UPDATE drives.global_data
-            SET Num_Axes = $1, VDC_Max = $2, VDC_Center_Tol = $3, Pst_Features = $4, c = $5
-            WHERE TypeCode = $6 RETURNING *
+            SET num_axes = $1, vdc_max = $2, vdc_center_tol = $3, pst_features = $4, c = $5
+            WHERE typecode = $6 RETURNING *
         `;
 
-        const result = await client.query(query, [Num_Axes, VDC_Max, VDC_Center_Tol, Pst_Features, c, typecode]);
+        const result = await client.query(query, [num_axes, vdc_max, vdc_center_tol, pst_features, c, typecode]);
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ message: "Kein Eintrag gefunden" });
+            return res.status(404).json({ message: "No entry found" });
         }
 
         res.json(result.rows[0]);
     } catch (error) {
-        console.error("Fehler beim Aktualisieren der Daten:", error);
-        res.status(500).send("Fehler beim Aktualisieren der Daten");
+        console.error("Error updating data:", error);
+        res.status(500).send("Error updating data");
     }
 };
 

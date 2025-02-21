@@ -23,6 +23,7 @@
 .table-container td {
     padding: 12px 14px;
     text-align: center;
+    cursor: pointer;
 }
 
 /* 🌟 Tabellenzeilen */
